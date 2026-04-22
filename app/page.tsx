@@ -153,22 +153,8 @@ export default function Home() {
           {/* Vertical gold divider (absolute positioned so it doesn't consume a grid column) */}
           <div className="hidden md:block absolute top-0 bottom-0 left-[60%] w-px bg-[var(--gold)]/30" />
 
-          {/* Right Column — Map + Hours & Location (2/5) */}
+          {/* Right Column — Hours & Location (2/5) */}
           <div className="md:col-span-2 md:pl-12 mt-12 md:mt-0">
-            {/* Google Maps embed */}
-            <div className="rounded overflow-hidden shadow-md mb-6 border border-[var(--gold)]/20">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d11380.342408342649!2d-88.0418!3d44.5134!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2sus!4v1776895552119!5m2!1sen!2sus"
-                width="100%"
-                height="220"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="á'Bravo Bistro location"
-              />
-            </div>
-
             <div className="border border-[var(--gold)]/30 rounded p-8 md:p-10 bg-white/40">
               <p className="font-caveat text-[var(--gold)] text-2xl mb-4">
                 Hours
