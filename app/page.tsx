@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <main className="min-h-screen paper-texture">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--cream)]/95 backdrop-blur-sm border-b border-[var(--gold)]/20">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--cream)]/95 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="font-serif text-2xl text-[var(--burgundy)] tracking-wide">
             á&apos;Bravo
@@ -198,7 +198,7 @@ export default function Home() {
       {/* Menu Section — with parchment texture background */}
       <section id="menu" className="bg-parchment relative py-20 md:py-28 px-6 bg-[var(--cream)] overflow-hidden">
         {/* Left accent illustration */}
-        <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
+        <div className="hidden lg:block absolute left-0 top-12 w-72 xl:w-96 pointer-events-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/accent-menu-left.png"
@@ -209,7 +209,7 @@ export default function Home() {
           />
         </div>
         {/* Right accent illustration */}
-        <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
+        <div className="hidden lg:block absolute right-0 top-12 w-72 xl:w-96 pointer-events-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/accent-menu-right.png"
