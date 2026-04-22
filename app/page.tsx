@@ -148,7 +148,7 @@ export default function Home() {
                 <p className="font-serif text-[var(--espresso-light)]/80 text-sm">
                   2069 Central Court #77
                   <br />
-                  Green Bay, WI 54311
+                  Bellevue / East Green Bay, WI 54311
                 </p>
                 <p className="mt-2 font-serif text-[var(--espresso-light)]/80 text-sm">
                   <a
@@ -159,7 +159,7 @@ export default function Home() {
                   </a>
                 </p>
                 <p className="mt-1 text-xs font-serif text-[var(--espresso-light)]/50">
-                  Dine In, Carry Out, or GrubHub
+                  Dine In, Carry Out, or <a href="https://www.grubhub.com/restaurant/abravo-bistro-2069-central-ct-77-green-bay/5526304" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--burgundy)] transition-colors">GrubHub</a>
                 </p>
               </div>
             </div>
@@ -210,6 +210,13 @@ export default function Home() {
             <div className="ornament-divider max-w-xs mx-auto">
               <span className="ornament">❧</span>
             </div>
+          </div>
+
+          {/* Dietary Legend */}
+          <div className="flex justify-center gap-6 mb-12 text-xs font-sans text-[var(--espresso-light)]/60">
+            <span className="flex items-center gap-1"><span className="badge-v px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">V</span> Vegetarian</span>
+            <span className="flex items-center gap-1"><span className="badge-vg px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">VG</span> Vegan</span>
+            <span className="flex items-center gap-1"><span className="badge-gf px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">GF</span> Gluten-Free</span>
           </div>
 
           {/* SNACKS & SHARES */}
@@ -432,7 +439,7 @@ export default function Home() {
               Call (920) 432-7286
             </a>
             <a
-              href="mailto:abravobistro@gmail.com"
+              href="mailto:abravobistro@gmail.com?subject=Catering%20Inquiry&body=Hi%2C%20I%27m%20interested%20in%20catering%20for%20an%20upcoming%20event.%0A%0ADate%3A%20%0ALocation%3A%20%0AGuests%3A%20%0AEvent%20type%3A%20"
               className="inline-flex items-center justify-center gap-2 border border-[var(--gold)] text-[var(--gold)] px-8 py-4 rounded-md text-sm tracking-widest uppercase font-semibold hover:bg-[var(--gold)] hover:text-[var(--espresso)] transition-colors"
             >
               <MailIcon />
@@ -441,10 +448,10 @@ export default function Home() {
           </div>
           <div className="border-t border-[var(--gold)]/30 pt-8">
             <p className="font-serif text-white/60 text-sm">
-              2069 Central Court #77 • Green Bay, WI 54311
+              2069 Central Court #77 • Bellevue / East Green Bay, WI 54311
             </p>
             <p className="font-serif text-[var(--gold)] text-sm mt-1">
-              Dine In • Carry Out • GrubHub
+              Dine In • Carry Out • <a href="https://www.grubhub.com/restaurant/abravo-bistro-2069-central-ct-77-green-bay/5526304" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80 transition-opacity">GrubHub</a>
             </p>
           </div>
         </div>
@@ -459,10 +466,10 @@ export default function Home() {
           <span className="ornament">⚜</span>
         </div>
         <p className="font-serif text-[var(--gold)] text-sm">
-          Established 1999 • Bellevue, Wisconsin
+          Established 1999 • Bellevue / East Green Bay, Wisconsin
         </p>
         <p className="mt-4 text-white/30 text-xs">
-          © 2026 á&apos;Bravo Bistro. All rights reserved.
+          © {new Date().getFullYear()} á&apos;Bravo Bistro. All rights reserved.
         </p>
       </footer>
     </main>
