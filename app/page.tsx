@@ -93,7 +93,7 @@ export default function Home() {
 
       {/* About Section — with bistro interior background */}
       <section id="about" className="bg-bistro-interior py-20 md:py-28 px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-0">
+        <div className="max-w-6xl mx-auto relative grid md:grid-cols-5 gap-0">
           {/* Left Column — Story & Awards (3/5) */}
           <div className="md:col-span-3 md:pr-12">
             <p className="font-caveat text-[var(--gold)] text-2xl md:text-3xl mb-2">
@@ -150,8 +150,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Vertical gold divider */}
-          <div className="hidden md:block md:col-span-0 w-px bg-[var(--gold)]/30 mx-auto" />
+          {/* Vertical gold divider (absolute positioned so it doesn't consume a grid column) */}
+          <div className="hidden md:block absolute top-0 bottom-0 left-[60%] w-px bg-[var(--gold)]/30" />
 
           {/* Right Column — Map + Hours & Location (2/5) */}
           <div className="md:col-span-2 md:pl-12 mt-12 md:mt-0">
