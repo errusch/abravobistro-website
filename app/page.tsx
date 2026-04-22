@@ -197,28 +197,6 @@ export default function Home() {
 
       {/* Menu Section — with parchment texture background */}
       <section id="menu" className="bg-parchment relative py-20 md:py-28 px-6 bg-[var(--cream)] overflow-hidden">
-        {/* Left accent illustration */}
-        <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/accent-menu-left.png"
-            alt=""
-            width={400}
-            height={600}
-            className="sketch-illustration w-full h-auto"
-          />
-        </div>
-        {/* Right accent illustration */}
-        <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/accent-menu-right.png"
-            alt=""
-            width={400}
-            height={600}
-            className="sketch-illustration w-full h-auto"
-          />
-        </div>
 
         <div className="relative max-w-5xl mx-auto">
           {/* Menu Header */}
