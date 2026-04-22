@@ -114,40 +114,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Awards */}
-            <div className="mt-10 pt-8 border-t border-[var(--gold)]/30">
-              <div className="ornament-divider mb-6">
-                <h3 className="font-serif text-lg text-[var(--burgundy)] px-4 whitespace-nowrap">
-                  Awards &amp; Recognition
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                {[
-                  { title: "Golden Fork — Best Sandwich", sub: "" },
-                  { title: "Golden Fork — Best Salad", sub: "" },
-                  { title: "Golden Fork — Best Café", sub: "" },
-                  { title: "Best Dine-in Deli", sub: "" },
-                  { title: "Best Ambiance", sub: "" },
-                  { title: "Runner-up — Best Wine List", sub: "" },
-                  { title: "Chamber of Commerce — Best Appetizer", sub: "" },
-                  { title: "Taste of the Town — Best Entrée, Appetizer & Dessert", sub: "" },
-                ].map((award, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span className="text-[var(--gold)] mt-0.5 text-sm">★</span>
-                    <div>
-                      <p className="font-serif text-sm font-semibold text-[var(--espresso-light)]">
-                        {award.title}
-                      </p>
-                      {award.sub && (
-                        <p className="font-serif text-xs italic text-[var(--espresso-light)]/60">
-                          {award.sub}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Vertical gold divider (absolute positioned so it doesn't consume a grid column) */}
@@ -199,6 +165,34 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Awards — full width, centered below the two columns */}
+        <div className="max-w-6xl mx-auto mt-16 pt-12 border-t border-[var(--gold)]/30">
+          <div className="ornament-divider mb-8">
+            <h3 className="font-serif text-lg text-[var(--burgundy)] px-4 whitespace-nowrap">
+              Awards &amp; Recognition
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 max-w-4xl mx-auto text-center">
+            {[
+              "Golden Fork — Best Sandwich",
+              "Golden Fork — Best Salad",
+              "Golden Fork — Best Café",
+              "Best Dine-in Deli",
+              "Best Ambiance",
+              "Runner-up — Best Wine List",
+              "Chamber of Commerce — Best Appetizer",
+              "Taste of the Town — Best Entrée, Appetizer & Dessert",
+            ].map((award, i) => (
+              <div key={i} className="flex items-center justify-center gap-2">
+                <span className="text-[var(--gold)] text-sm">★</span>
+                <p className="font-serif text-sm font-semibold text-[var(--espresso-light)]">
+                  {award}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
