@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <main className="min-h-screen paper-texture">
@@ -33,24 +31,24 @@ export default function Home() {
       <section className="relative pt-32 pb-24 md:pt-44 md:pb-36 px-6 bg-[var(--cream)] overflow-hidden">
         {/* Left sketch illustration */}
         <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/images/sketch-left.png"
             alt=""
             width={400}
             height={600}
             className="sketch-illustration w-full h-auto"
-            priority
           />
         </div>
         {/* Right sketch illustration */}
         <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/images/sketch-right.png"
             alt=""
             width={400}
             height={600}
             className="sketch-illustration w-full h-auto"
-            priority
           />
         </div>
 
