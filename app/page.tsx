@@ -153,19 +153,8 @@ export default function Home() {
           {/* Vertical gold divider */}
           <div className="hidden md:block md:col-span-0 w-px bg-[var(--gold)]/30 mx-auto" />
 
-          {/* Right Column — Photo + Hours & Location (2/5) */}
+          {/* Right Column — Hours & Location (2/5) */}
           <div className="md:col-span-2 md:pl-12 mt-12 md:mt-0">
-            {/* Bistro interior photo */}
-            <div className="bistro-photo-panel mb-8 shadow-lg">
-              <Image
-                src="/images/bg-bistro-interior.png"
-                alt="á'Bravo Bistro interior — warm candlelit dining"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
-            </div>
-
             <div className="border border-[var(--gold)]/30 rounded p-8 md:p-10 bg-white/40">
               <p className="font-caveat text-[var(--gold)] text-2xl mb-4">
                 Hours
