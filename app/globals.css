@@ -68,9 +68,9 @@
   border: 1px solid var(--gold);
 }
 
-/* Sepia sketch illustration blend */
+/* Sepia watercolor accent illustration blend */
 .sketch-illustration {
-  filter: sepia(0.6) opacity(0.85);
+  opacity: 0.6;
   mix-blend-mode: multiply;
 }
 
