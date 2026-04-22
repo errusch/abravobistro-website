@@ -17,7 +17,7 @@ export default function Home() {
               Menu
             </a>
             <a className="text-sm font-medium tracking-wide uppercase text-[var(--espresso-light)] hover:text-[var(--burgundy)] transition-colors" href="#visit">
-              Visit
+              Reservations
             </a>
             <a
               className="bg-[var(--burgundy)] text-white px-5 py-2 rounded text-sm font-medium tracking-wide hover:opacity-90 transition-opacity"
