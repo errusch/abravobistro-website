@@ -85,8 +85,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 md:py-28 px-6 bg-[var(--taupe)]/40">
+      {/* Parallax Divider: Table Setting */}
+      <div
+        className="parallax-divider"
+        style={{ backgroundImage: "url('/images/bg-table-setting.png')" }}
+      />
+
+      {/* About Section — with bistro interior background */}
+      <section id="about" className="bg-bistro-interior py-20 md:py-28 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-0">
           {/* Left Column — Story & Awards (3/5) */}
           <div className="md:col-span-3 md:pr-12">
@@ -147,8 +153,19 @@ export default function Home() {
           {/* Vertical gold divider */}
           <div className="hidden md:block md:col-span-0 w-px bg-[var(--gold)]/30 mx-auto" />
 
-          {/* Right Column — Hours & Location (2/5) */}
+          {/* Right Column — Photo + Hours & Location (2/5) */}
           <div className="md:col-span-2 md:pl-12 mt-12 md:mt-0">
+            {/* Bistro interior photo */}
+            <div className="bistro-photo-panel mb-8 shadow-lg">
+              <Image
+                src="/images/bg-bistro-interior.png"
+                alt="á'Bravo Bistro interior — warm candlelit dining"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </div>
+
             <div className="border border-[var(--gold)]/30 rounded p-8 md:p-10 bg-white/40">
               <p className="font-caveat text-[var(--gold)] text-2xl mb-4">
                 Hours
@@ -197,8 +214,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Menu Section */}
-      <section id="menu" className="py-20 md:py-28 px-6 bg-[var(--cream)]">
+      {/* Menu Section — with parchment texture background */}
+      <section id="menu" className="bg-parchment py-20 md:py-28 px-6 bg-[var(--cream)]">
         <div className="max-w-5xl mx-auto">
           {/* Menu Header */}
           <div className="text-center mb-16">
@@ -410,8 +427,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Visit / CTA Section */}
-      <section id="visit" className="py-20 md:py-28 px-6 bg-[var(--burgundy)]">
+      {/* Visit / CTA Section — with wine glasses background */}
+      <section id="visit" className="bg-wine-cta py-20 md:py-28 px-6 bg-[var(--burgundy)]">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-caveat text-[var(--gold)] text-2xl md:text-3xl mb-2">
             Join Us
@@ -427,7 +444,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <a
               href="tel:9204327286"
-              className="inline-flex items-center justify-center gap-2 bg-[var(--gold)] text-[var(--espresso)] px-8 py-4 rounded-md text-sm tracking-widest uppercase font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 bg-[var(--gold)] text-[var(--espresso)] px-8 py-4 rounded-md text-sm tracking-widest uppercase font-semibold hover:opacity-90 transition-opacity shadow-lg"
             >
               <PhoneIcon />
               Call (920) 432-7286
