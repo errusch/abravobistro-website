@@ -2,33 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --burgundy: #5C1A1B;
-  --cream: #F9F5EB;
-  --gold: #C9A96E;
-  --taupe: #F0EAE0;
-  --espresso: #2C1810;
-  --espresso-light: #3D2B1F;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
   }
   body {
-    background-color: var(--cream);
-    color: var(--espresso-light);
+    @apply bg-cream text-espresso-light antialiased;
   }
+}
+
+/* ─── Hero entrance animations ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-animate > * {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-animate > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-animate > *:nth-child(2) { animation-delay: 0.25s; }
+.hero-animate > *:nth-child(3) { animation-delay: 0.4s; }
+.hero-animate > *:nth-child(4) { animation-delay: 0.55s; }
+.hero-animate > *:nth-child(5) { animation-delay: 0.7s; }
+
+/* ─── Menu item hover polish ─── */
+.menu-row {
+  transition: background-color 0.25s ease, transform 0.25s ease;
+  padding: 6px 10px;
+  margin: -6px -10px;
+  border-radius: 6px;
+}
+.menu-row:hover {
+  background-color: rgba(201, 169, 110, 0.06);
+  transform: translateX(3px);
+}
+
+/* ─── Navbar scroll behavior ─── */
+.nav-hidden {
+  transform: translateY(-100%);
+}
+.nav-visible {
+  transform: translateY(0);
 }
 
 @layer utilities {
   .font-playfair {
-    font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+    font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
   }
   .font-caveat {
-    font-family: var(--font-caveat), 'Caveat', cursive;
+    font-family: var(--font-caveat), "Caveat", cursive;
   }
 }
+
+/* ─── Custom utility classes ─── */
 
 /* Gold ornamental divider */
 .ornament-divider {
@@ -39,33 +91,33 @@
 }
 .ornament-divider::before,
 .ornament-divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
-  background: var(--gold);
+  background: theme("colors.gold");
   opacity: 0.5;
 }
 .ornament-divider .ornament {
-  color: var(--gold);
+  color: theme("colors.gold");
   font-size: 1rem;
   line-height: 1;
 }
 
 /* Dietary badge styles */
 .badge-v {
-  background-color: var(--gold);
+  background-color: theme("colors.gold");
   color: white;
-  border: 1px solid var(--burgundy);
+  border: 1px solid theme("colors.burgundy");
 }
 .badge-gf {
   background-color: white;
-  color: var(--gold);
-  border: 1px solid var(--gold);
+  color: theme("colors.gold");
+  border: 1px solid theme("colors.gold");
 }
 .badge-vg {
   background-color: white;
-  color: var(--gold);
-  border: 1px solid var(--gold);
+  color: theme("colors.gold");
+  border: 1px solid theme("colors.gold");
 }
 
 /* Sepia watercolor accent illustration blend */
@@ -84,10 +136,10 @@
   position: relative;
 }
 .bg-bistro-interior::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image: url('/images/bg-bistro-interior.png');
+  background-image: url("/images/bg-bistro-interior.png");
   background-size: cover;
   background-position: center;
   opacity: 0.12;
@@ -103,10 +155,10 @@
   position: relative;
 }
 .bg-parchment::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image: url('/images/bg-parchment-texture.png');
+  background-image: url("/images/bg-parchment-texture.png");
   background-size: cover;
   background-position: center;
   opacity: 0.07;
@@ -122,10 +174,10 @@
   position: relative;
 }
 .bg-wine-cta::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image: url('/images/bg-wine-glasses.png');
+  background-image: url("/images/bg-wine-glasses.png");
   background-size: cover;
   background-position: center;
   opacity: 0.15;
@@ -146,15 +198,15 @@
   background-position: center;
 }
 .parallax-divider::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    var(--cream) 0%,
+    theme("colors.cream") 0%,
     transparent 15%,
     transparent 85%,
-    var(--cream) 100%
+    theme("colors.cream") 100%
   );
   z-index: 1;
 }
@@ -167,7 +219,7 @@
   min-height: 320px;
 }
 .bistro-photo-panel::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
