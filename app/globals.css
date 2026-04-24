@@ -119,6 +119,42 @@
   color: theme("colors.gold");
   border: 1px solid theme("colors.gold");
 }
+.badge-df {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #2e7d32;
+}
+.badge-lc {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #1565c0;
+}
+
+/* Menu tab styles */
+.menu-tab {
+  transition: all 0.25s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.5rem;
+}
+.menu-tab:hover {
+  color: theme("colors.burgundy");
+}
+.menu-tab-active {
+  color: theme("colors.burgundy");
+  border-bottom-color: theme("colors.burgundy");
+  font-weight: 600;
+}
+
+/* Wine list card */
+.wine-card {
+  transition: background-color 0.2s ease;
+  padding: 10px 12px;
+  margin: -10px -12px;
+  border-radius: 6px;
+}
+.wine-card:hover {
+  background-color: rgba(201, 169, 110, 0.06);
+}
 
 /* Sepia watercolor accent illustration blend */
 .sketch-illustration {

@@ -1,9 +1,169 @@
 "use client";
 
+import { useState } from "react";
 import ScrollReveal from "./components/ScrollReveal";
 import MobileNav from "./components/MobileNav";
 import OpenStatus from "./components/OpenStatus";
 import { useScrollDirection } from "./hooks/useScrollDirection";
+
+type MenuTab = "lunch" | "dinner" | "wine";
+
+interface Badge {
+  label: string;
+  type: "v" | "gf" | "vg" | "df" | "lc";
+}
+
+interface MenuItem {
+  name: string;
+  price: string;
+  desc: string;
+  badges?: Badge[];
+}
+
+interface MenuSectionData {
+  title: string;
+  note?: string;
+  items: MenuItem[];
+}
+
+/* ─── Snacks & Shares (same for lunch & dinner) ─── */
+const snacksAndShares: MenuSectionData = {
+  title: "Snacks & Shares",
+  items: [
+    { name: "Brussel Sprouts", price: "$18", desc: "Pan seared with bacon, caramelized onions, fresh herbs, parmesan & panko" },
+    { name: "Burrata", price: "$18", desc: "With lemon oil, red wine vinaigrette, arugula, tomato & grilled crostini", badges: [{ label: "V", type: "v" }] },
+    { name: "Seasonal Hummus", price: "$17", desc: "House made, served with toasted crostini, vegetables & candied walnuts", badges: [{ label: "V", type: "v" }, { label: "VG", type: "vg" }] },
+    { name: "BYO Pizza", price: "$23", desc: "Cauliflower crust, choose from seasonal vegetables, pulled pork & beef meatballs, pepperoni, red sauce, white sauce", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Spinach Artichoke Dip", price: "$18", desc: "House made, served warm with Naan bread" },
+    { name: "Crab Stuffed Mushrooms", price: "$18", desc: "Cremini mushrooms stuffed with four cheese crab blend, baked, topped with asiago" },
+    { name: "Cauliflower Bites", price: "$15", desc: "Air fried with choice of sauce" },
+  ],
+};
+
+/* ─── Sandwiches (same for lunch & dinner) ─── */
+const sandwiches: MenuSectionData = {
+  title: "Sandwiches",
+  note: "Served with kettle chips, roasted potatoes, fresh fruit, or cucumber & onion salad. Substitute cauliflower flatbread +$4.",
+  items: [
+    { name: "Turkey Club Wrap", price: "$18", desc: "House roasted turkey, spring greens, onion, tomato, bacon, cheddar & cranberry mustard mayo in a tomato & herb wrap" },
+    { name: "Build Your Own Burger", price: "$19", desc: "Waseda Farms beef with greens, tomato, onion & choice of cheddar, pepper jack or swiss cheese. Add fried egg +$2, Add bacon +$3" },
+    { name: "Tuscany", price: "$19", desc: "Grilled chicken thigh, bacon, fresh mozzarella, spring greens, garlic aioli, basil on ciabatta" },
+    { name: "Cuban", price: "$18", desc: "Sweet & spicy pulled pork, shaved ham, baby Swiss, sweet house pickles & whole seed mustard" },
+    { name: "Chicken Salad Croissant", price: "$19", desc: "Made with chicken breast, served on a bed of spring greens" },
+    { name: "Caprese Sandwich", price: "$20", desc: "Tomato, basil, mozzarella, spring greens & balsamic reduction on cauliflower flatbread or sourdough. Add chicken +$7, Add prosciutto +$5", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Seafood Lobster Roll", price: "$21", desc: "Lobster, crab & white fish salad with spiced aioli, chopped celery, fennel & shallot in a New England style roll" },
+    { name: "Philly Cheese Steak", price: "$19", desc: "Angus steak, provolone cheese, sautéed bell peppers, onions & mushrooms on a brick fire bun" },
+    { name: "Rueben Sandwich", price: "$19", desc: "Layered with corned beef, aged Swiss, house thousand island dressing & sauerkraut on grilled marbled rye" },
+    { name: "Beyond Burger", price: "$21", desc: "Plant based burger with greens, tomato, onion & choice of cheddar, pepper jack or swiss cheese" },
+    { name: "Meatloaf Sandwich", price: "$19", desc: "Signature meatloaf sliced on sourdough bread with caramelized onions & Swiss cheese" },
+  ],
+};
+
+/* ─── Soups & Salads (same for lunch & dinner) ─── */
+const soupsAndSalads: MenuSectionData = {
+  title: "Soups & Salads",
+  note: "Add Protein: Chicken $7 | Shrimp $9 | Salmon $10 | Seared Tuna $11 | Mahi $11",
+  items: [
+    { name: "Three Cheese Mushroom Soup", price: "Cup $8 / Bowl $12 / Quart $20", desc: "When available", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Soup of the Day", price: "Cup $7 / Bowl $10 / Quart $18", desc: "Ask your server for today's selection" },
+    { name: "Turkey Pesto Pasta", price: "$18", desc: "Smoked turkey, dried cranberries, red onion & light pesto aioli tossed with bow tie pasta & parmesan" },
+    { name: "Roasted Sweet Potato Salad", price: "$18", desc: "Roasted sweet potatoes, red onion, kalamata olives, fresh mozzarella, parmesan, spring greens with honey balsamic vinaigrette", badges: [{ label: "GF", type: "gf" }, { label: "V", type: "v" }] },
+    { name: "Rustic Lovers Salad", price: "$20", desc: "House roasted turkey, bacon, dried cranberry, pistachio, red onion, greens & spinach with parmesan peppercorn dressing", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Shrimp & Vegetable Noodle Bowl", price: "$24", desc: "Shrimp in spicy chicken broth with seasonal vegetable noodles, fresh lime & toasted sesame seeds", badges: [{ label: "GF", type: "gf" }, { label: "LC", type: "lc" }] },
+    { name: "Mandarin Seared Tuna Salad", price: "$26", desc: "Seasonal seared tuna on a bed of spinach with mandarin oranges, zucchini, red & yellow peppers, citrus glaze & sesame seeds", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Black & Bleu Salad", price: "$23", desc: "Blackened sirloin, mixed greens, red, green & yellow bell peppers, red onions, bleu cheese crumbles with bleu cheese dressing" },
+  ],
+};
+
+/* ─── Lunch Bistro Plates ─── */
+const lunchBistroPlates: MenuSectionData = {
+  title: "Bistro Plates",
+  items: [
+    { name: "Big Boo", price: "$23", desc: "Sliced chicken breast, bacon, bow tie pasta & vegetables in a spicy white wine cream sauce" },
+    { name: "Lobster & Seafood Mac & Cheese", price: "$27", desc: "Lobster, crab & white fish, four-cheese cream sauce, cavatappi pasta & asiago toast" },
+    { name: "Blackened Shrimp Tacos", price: "$25", desc: "Corn tortillas, chihuahua cheese, cabbage slaw, pickled onion & salsa roja", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Blackened Mahi Tacos", price: "$25", desc: "Blackened Mahi with corn tortillas, chihuahua cheese, cabbage & pickled onion salad and salsa roja", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Ratatouille", price: "$21", desc: "Roasted eggplant, summer squash, red pepper & tomato with red wine tomato sauce, spring greens & basil oil", badges: [{ label: "GF", type: "gf" }, { label: "VG", type: "vg" }] },
+    { name: "Gluten Free Chicken Penne Pasta", price: "$28", desc: "Gluten free pasta with chicken breast & white cream sauce", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Thai Peanut Sauté", price: "$24", desc: "Sliced chicken breast, seasonal vegetable & spinach in Thai peanut sauce with jasmine rice, green onions, spicy toasted peanuts & almonds", badges: [{ label: "GF", type: "gf" }, { label: "DF", type: "df" }] },
+    { name: "Prosciutto Chicken", price: "$28", desc: "Chicken breast stuffed with prosciutto, bacon, mushrooms, spinach & mozzarella, served with truffle cauliflower risotto, seasonal vegetables, white wine cream sauce & pistachios", badges: [{ label: "GF", type: "gf" }, { label: "LC", type: "lc" }] },
+    { name: "Truffle Scallop Pasta", price: "$32", desc: "Gigli pasta, four cheese white wine cream sauce, Hudson Bay scallops, Italian black truffle & spinach" },
+    { name: "Spinach & Mushroom Ravioli", price: "With Meatballs $28 / Without $22", desc: "Spinach & mushroom ravioli served with marinara and meatballs" },
+    { name: "Spaghetti Squash & Meatballs", price: "$25", desc: "Waseda Farms beef & pork meatballs, red wine tomato sauce, spaghetti squash, fresh ricotta, basil & parmesan in a cream sauce", badges: [{ label: "LC", type: "lc" }] },
+    { name: "Shrimp Scampi", price: "$36", desc: "Shrimp served with lemon butter garlic sauce over a truffle cauliflower risotto", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Chicken Parmesan", price: "$25", desc: "Almond flour, parmesan crusted chicken breast topped with red wine tomato sauce, fresh mozzarella, spaghetti squash in a cream sauce, basil oil & parmesan", badges: [{ label: "GF", type: "gf" }, { label: "LC", type: "lc" }] },
+    { name: "Shrimp Alfredo", price: "$28", desc: "Garlic butter sautéed shrimp on a bed of linguine with house made white sauce, garnished with parmesan" },
+    { name: "Grilled Salmon", price: "$31", desc: "Grilled salmon served over cauliflower risotto and seasonal vegetables" },
+  ],
+};
+
+/* ─── Dinner Bistro Plates (lighter plates only) ─── */
+const dinnerBistroPlates: MenuSectionData = {
+  title: "Bistro Plates",
+  items: [
+    { name: "Blackened Shrimp Tacos", price: "$25", desc: "Corn tortillas, chihuahua cheese, cabbage slaw, pickled onion & salsa roja", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Blackened Mahi Tacos", price: "$25", desc: "Blackened Mahi with corn tortillas, chihuahua cheese, cabbage & pickled onion salad and salsa roja", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Ratatouille", price: "$21", desc: "Roasted eggplant, summer squash, red pepper & tomato with red wine tomato sauce, spring greens & basil oil", badges: [{ label: "GF", type: "gf" }, { label: "VG", type: "vg" }] },
+    { name: "Gluten Free Chicken Penne Pasta", price: "$28", desc: "Gluten free pasta with chicken breast & white cream sauce", badges: [{ label: "GF", type: "gf" }] },
+  ],
+};
+
+/* ─── Dinner Entrees ─── */
+const dinnerEntrees: MenuSectionData = {
+  title: "Entrées",
+  note: "Served with a house salad or soup of your choice",
+  items: [
+    { name: "Ribeye", price: "$49", desc: "12 oz. hand cut ribeye with roasted potatoes & seasonal vegetables" },
+    { name: "Lobster & Seafood Mac & Cheese", price: "$33", desc: "Lobster, crab & white fish, four-cheese cream sauce, cavatappi pasta & asiago toast" },
+    { name: "Big Boo", price: "$29", desc: "Sliced chicken breast, bacon, bow tie pasta & vegetables in a spicy white wine cream sauce" },
+    { name: "Spinach & Mushroom Ravioli", price: "With Meatballs $34 / Without $28", desc: "Spinach & mushroom ravioli served with marinara and meatballs" },
+    { name: "Thai Peanut Sauté", price: "$30", desc: "Sliced chicken breast, seasonal vegetable & spinach in Thai peanut sauce with jasmine rice, green onions, spicy toasted peanuts & almonds", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Shrimp Scampi", price: "$42", desc: "Shrimp served with lemon butter garlic sauce over a truffle cauliflower risotto", badges: [{ label: "GF", type: "gf" }] },
+    { name: "Prosciutto Chicken", price: "$34", desc: "Chicken breast stuffed with prosciutto, bacon, mushrooms, spinach & mozzarella, served with truffle cauliflower risotto, seasonal vegetables, white wine cream sauce & pistachios", badges: [{ label: "GF", type: "gf" }, { label: "LC", type: "lc" }] },
+    { name: "Truffle Scallop Pasta", price: "$38", desc: "Gigli pasta, four cheese white wine cream sauce, Hudson Bay scallops, Italian black truffle & spinach" },
+    { name: "Shrimp Alfredo", price: "$34", desc: "Garlic butter sautéed shrimp on a bed of linguine with house made white sauce, garnished with parmesan" },
+    { name: "Chicken Parmesan", price: "$31", desc: "Almond flour, parmesan crusted chicken breast topped with red wine tomato sauce, fresh mozzarella, spaghetti squash in a cream sauce, basil oil & parmesan", badges: [{ label: "GF", type: "gf" }, { label: "LC", type: "lc" }] },
+    { name: "Grilled Salmon", price: "$37", desc: "Grilled salmon served over cauliflower risotto and seasonal vegetables" },
+    { name: "Classic Homestyle Meatloaf", price: "$29", desc: "Homestyle meatloaf with garlic mashed potatoes, burnt carrots & topped with house brown gravy" },
+    { name: "Spaghetti Squash & Meatballs", price: "$31", desc: "Waseda Farms beef & pork meatballs, red wine tomato sauce, spaghetti squash, fresh ricotta, basil & parmesan in a cream sauce", badges: [{ label: "LC", type: "lc" }] },
+  ],
+};
+
+/* ─── Wine Data ─── */
+interface Wine {
+  name: string;
+  region: string;
+  glassPrice: number;
+  bottlePrice?: number;
+  desc: string;
+}
+
+const whiteWines: Wine[] = [
+  { name: "J. Lohr Bay Mist Riesling", region: "Monterey, California", glassPrice: 9, bottlePrice: 34, desc: "Flavors of ripe apple and pear with a touch of sweetness" },
+  { name: "Caposaldo Pinot Grigio", region: "Delle Venezie, Italy", glassPrice: 9, bottlePrice: 34, desc: "Clean and crisp with delicate aromas of apples and peaches" },
+  { name: "Matua Sauvignon Blanc", region: "Marlborough, New Zealand", glassPrice: 9, bottlePrice: 34, desc: "Fruit driven with classic Marlborough acidity, fresh clean palate and passion fruit finish" },
+  { name: "Sonoma-Cutrer Russian River Ranches Chardonnay", region: "Sonoma Coast, California", glassPrice: 12, bottlePrice: 46, desc: "Crisp, bright acidity with lemon and mineral flavor and lingering notes of pineapple and pear" },
+  { name: "Sea Sun Chardonnay", region: "California", glassPrice: 9, bottlePrice: 34, desc: "Medium bodied with hints of oak and fruit flavors" },
+  { name: "Coppo Moncalvino Moscato d'Asti", region: "Piemonte, Italy", glassPrice: 11, bottlePrice: 40, desc: "Fresh, floral notes with peach and pear overtones" },
+  { name: "Mulderbosche Rosé", region: "South Africa", glassPrice: 10, bottlePrice: 36, desc: "Elegant and full, with a creamy finish" },
+  { name: "Bisol by Jeio Prosecco", region: "Prosecco, Italy", glassPrice: 12, bottlePrice: 46, desc: "Fresh, floral notes with peach and pear overtones" },
+  { name: "Poema Cava Rosé", region: "Spain", glassPrice: 10, bottlePrice: 36, desc: "Flavors of strawberry and raspberry with elegant bubbles" },
+];
+
+const redWines: Wine[] = [
+  { name: "Threadcount Red Blend", region: "California", glassPrice: 12, bottlePrice: 46, desc: "Bold flavors of boysenberry, sugar cookie and toffee with notes of strawberry jam and baking spice" },
+  { name: "Decoy by Duckhorn Merlot", region: "California", glassPrice: 11, bottlePrice: 40, desc: "Refined tannins with a luxurious fruit-filled finish" },
+  { name: "St. Francis \"Old Vine\" Zinfandel", region: "Sonoma, California", glassPrice: 12, bottlePrice: 46, desc: "Raspberry, blackberry and a touch of cranberry balanced with spicy notes of anise and cinnamon" },
+  { name: "Böen Pinot Noir", region: "California", glassPrice: 12, bottlePrice: 46, desc: "Bright fruit flavors of cherry, strawberry, and blackberry with hints of cocoa and caramel" },
+  { name: "Trivento Malbec", region: "Mendoza, Argentina", glassPrice: 9, bottlePrice: 34, desc: "Balanced with sweet tannins and a velvety finish" },
+  { name: "Silver Raven Cabernet Sauvignon", region: "Columbia, Washington", glassPrice: 12, bottlePrice: 46, desc: "Stunning structure and balance with flavors of currant and blackberry" },
+  { name: "Hess Shirttail Ranches Cabernet Sauvignon", region: "North Coast, California", glassPrice: 12, bottlePrice: 46, desc: "Harmonious and complex flavors of black cherry, plum, vanilla, chocolate with a whiff of spice" },
+  { name: "Scarpetta Barbera", region: "Piedmont, Italy", glassPrice: 12, bottlePrice: 46, desc: "Medium-bodied with bright acidity and low tannins" },
+];
+
+const ports: { name: string; price: number; desc: string }[] = [
+  { name: "Grahams Six Grapes", price: 9, desc: "Fruity and robust of superb quality" },
+];
 
 export default function Home() {
   const { direction, atTop } = useScrollDirection();
@@ -239,255 +399,7 @@ export default function Home() {
       </section>
 
       {/* Menu Section — with parchment texture background */}
-      <section id="menu" className="bg-parchment relative py-20 md:py-28 px-6 bg-cream overflow-hidden">
-        <div className="relative max-w-5xl mx-auto">
-          {/* Menu Header */}
-          <div className="text-center mb-16">
-            <ScrollReveal>
-              <p className="font-caveat text-gold text-3xl md:text-4xl mb-2">
-                Lunch Menu
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={100}>
-              <h2 className="font-serif text-3xl md:text-4xl text-burgundy uppercase tracking-wide mb-3">
-                Served Daily 11 AM – 4 PM
-              </h2>
-            </ScrollReveal>
-            <ScrollReveal delay={200}>
-              <div className="ornament-divider max-w-xs mx-auto">
-                <span className="ornament">❧</span>
-              </div>
-            </ScrollReveal>
-          </div>
-
-          {/* Dietary Legend */}
-          <ScrollReveal delay={200}>
-            <div className="flex justify-center gap-6 mb-12 text-xs font-sans text-espresso-light/60">
-              <span className="flex items-center gap-1">
-                <span className="badge-v px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">
-                  V
-                </span>{" "}
-                Vegetarian
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="badge-vg px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">
-                  VG
-                </span>{" "}
-                Vegan
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="badge-gf px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">
-                  GF
-                </span>{" "}
-                Gluten-Free
-              </span>
-            </div>
-          </ScrollReveal>
-
-          {/* SNACKS & SHARES */}
-          <ScrollReveal>
-            <MenuSection title="Snacks & Shares">
-              <MenuItem
-                name="Brussel Sprouts"
-                price="$18"
-                desc="Pan-seared with bacon, caramelized onion, herbs, parmesan, panko, & apple cider vinegar"
-              />
-              <MenuItem
-                name="Burrata"
-                price="$18"
-                desc="With lemon oil, red wine vinaigrette, arugula, roasted tomato, & grilled crostini"
-                badges={[{ label: "V", type: "v" }]}
-              />
-              <MenuItem
-                name="House Made Seasonal Hummus"
-                price="$17"
-                desc="Served with toasted crostini, vegetables, & candied walnuts"
-                badges={[{ label: "V", type: "v" }, { label: "VG", type: "vg" }]}
-              />
-              <MenuItem
-                name="B.Y.O Pizza"
-                price="$23"
-                desc="Cauliflower crust with choice of seasonal veggies, meatballs, pepperoni, & red/white sauce"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Ahi Tuna"
-                price="$28"
-                desc="Seasonal preparation (ask server for details)"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Spinach Artichoke Dip"
-                price="$18"
-                desc="House-made, served warm with Naan bread"
-              />
-              <MenuItem
-                name="Crab Stuffed Mushrooms"
-                price="$18"
-                desc="Cremini mushrooms with four-cheese crab blend, baked, topped with asiago"
-              />
-              <MenuItem
-                name="Cauliflower Bites"
-                price="$15"
-                desc="Air-fried with choice of sauce"
-              />
-            </MenuSection>
-          </ScrollReveal>
-
-          {/* SOUPS & SALADS */}
-          <ScrollReveal delay={100}>
-            <MenuSection
-              title="Soups & Salads"
-              note="Add Protein: Chicken +$7 | Shrimp +$9 | Salmon +$10 | Seared Tuna +$11"
-            >
-              <MenuItem
-                name="Three Cheese Mushroom Soup"
-                price="$8"
-                desc="Cup $8 / Bowl $12 / Quart $20"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Soup Of The Day"
-                price="$7"
-                desc="Cup $7 / Bowl $10 / Quart $18"
-              />
-              <MenuItem
-                name="Turkey Pesto Pasta"
-                price="$18"
-                desc="Roasted turkey, cranberries, red onion, pesto aioli, bow tie pasta, parmesan"
-              />
-              <MenuItem
-                name="Caramelized Sweet Potato Salad"
-                price="$18"
-                desc="Roasted sweet potatoes, spring greens, mozzarella, olives, parmesan, honey balsamic vinaigrette"
-                badges={[{ label: "GF", type: "gf" }, { label: "V", type: "v" }]}
-              />
-              <MenuItem
-                name="Rustic Lovers Salad"
-                price="$20"
-                desc="House roasted turkey, parmesan, bacon, cranberries, onion, pistachio greens, spinach, peppercorn dressing"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Shrimp & Vegetable Noodle Bowl"
-                price="$24"
-                desc="Shrimp in spicy chicken broth with veggie noodles, sesame, lime"
-                badges={[{ label: "GF", type: "gf" }, { label: "VG", type: "vg" }]}
-              />
-              <MenuItem
-                name="Mandarin Seared Tuna Salad"
-                price="$26"
-                desc="Seared tuna on spinach with mandarin oranges, zucchini, peppers, citrus glaze, sesame"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Black & Bleu Salad"
-                price="$23"
-                desc="Blackened sirloin, mixed greens, bell peppers, onion, bleu cheese crumbles & dressing"
-              />
-            </MenuSection>
-          </ScrollReveal>
-
-          {/* SANDWICHES */}
-          <ScrollReveal delay={100}>
-            <MenuSection
-              title="Sandwiches"
-              note="Served with kettle chips, roasted potatoes, fresh fruit, or cucumber & onion salad. Substitute cauliflower flatbread +$4. Can be made Gluten-Free."
-            >
-              <MenuItem
-                name="Turkey Club Wrap"
-                price="$18"
-                desc="Shaved turkey, greens, onion, tomato, bacon, cheddar, cranberry mustard mayo on herb wrap"
-              />
-              <MenuItem
-                name="Tuscany"
-                price="$19"
-                desc="Crispy chicken thigh, bacon, mozzarella, gorgonzola, tomato, greens, garlic aioli, basil on ciabatta"
-              />
-              <MenuItem
-                name="Cuban"
-                price="$18"
-                desc="Sweet & spicy pulled pork, ham, Swiss, sweet pickles, chipotle mustard"
-              />
-              <MenuItem
-                name="Build Your Own Burger"
-                price="$19"
-                desc="Waseda Farms beef with greens, tomato, onion, choice of cheese. Add fried egg +$2, Add bacon +$3"
-              />
-              <MenuItem
-                name="Seafood Lobster Roll"
-                price="$21"
-                desc="New England style roll with lobster, crab, white fish salad, spiced aioli, celery, fennel"
-              />
-              <MenuItem
-                name="Caprese Sandwich"
-                price="$20"
-                desc="Tomato, basil, mozzarella, greens, balsamic reduction on GF cauliflower flatbread or sourdough. Add chicken +$7, Add prosciutto +$5"
-              />
-              <MenuItem
-                name="Chicken Salad Croissant"
-                price="$19"
-                desc="Chicken breast with craisins on a bed of spring greens"
-              />
-              <MenuItem
-                name="Philly Cheese Steak"
-                price="$19"
-                desc="Angus steak, provolone, sautéed peppers, onions, mushrooms on a brick fire bun"
-              />
-              <MenuItem
-                name="Rueben Sandwich"
-                price="$19"
-                desc="Corned beef, aged Swiss, house thousand island, sauerkraut on grilled marbled rye"
-              />
-              <MenuItem
-                name="Meatloaf Sandwich"
-                price="$19"
-                desc="Signature meatloaf on sourdough with caramelized onions and Swiss"
-              />
-            </MenuSection>
-          </ScrollReveal>
-
-          {/* BISTRO PLATES */}
-          <ScrollReveal delay={100}>
-            <MenuSection title="Bistro Plates">
-              <MenuItem
-                name="Big Boo"
-                price="$23"
-                desc="Sliced chicken thigh, bacon, bow tie pasta, roasted peppers, broccoli in spicy white wine cream sauce"
-                badges={[{ label: "Mild", type: "gf" }]}
-              />
-              <MenuItem
-                name="Lobster & Seafood Mac & Cheese"
-                price="$27"
-                desc="Lobster, crab, whitefish in four-cheese cream sauce with Cavatappi pasta & asiago toast"
-              />
-              <MenuItem
-                name="Ratatouille"
-                price="$21"
-                desc="Roasted eggplant, squash, red pepper, tomato with red wine tomato sauce, basil oil, greens"
-                badges={[{ label: "GF", type: "gf" }, { label: "VG", type: "vg" }]}
-              />
-              <MenuItem
-                name="Thai Peanut Sauté"
-                price="$24"
-                desc="Chicken breast, seasonal veggies, spinach in Thai peanut sauce with jasmine rice, green onion, toasted nuts"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Prosciutto Chicken LC"
-                price="$28"
-                desc="Chicken breast stuffed with mozzarella, spinach, mushrooms, prosciutto, bacon. Served with truffle cauliflower risotto, seasonal veg, white wine cream sauce, pistachios"
-                badges={[{ label: "GF", type: "gf" }]}
-              />
-              <MenuItem
-                name="Spaghetti Squash & Meatballs LC"
-                price="$25"
-                desc="Waseda Farms beef & pork meatballs, red wine tomato sauce over spaghetti squash in cream sauce with ricotta, basil, parmesan"
-              />
-            </MenuSection>
-          </ScrollReveal>
-        </div>
-      </section>
+      <MenuSectionTabs />
 
       {/* Visit / CTA Section — with wine glasses background */}
       <section id="visit" className="bg-wine-cta py-20 md:py-28 px-6 bg-burgundy">
@@ -606,7 +518,7 @@ function MenuSection({
 
 interface Badge {
   label: string;
-  type: "v" | "gf" | "vg";
+  type: "v" | "gf" | "vg" | "df" | "lc";
 }
 
 function MenuItem({
@@ -679,5 +591,258 @@ function MailIcon() {
       <rect width="20" height="16" x="2" y="4" rx="2" />
       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
+  );
+}
+
+/* ─── Data-driven menu section renderer ─── */
+function DataMenuSection({ section }: { section: MenuSectionData }) {
+  return (
+    <MenuSection title={section.title} note={section.note}>
+      {section.items.map((item, i) => (
+        <MenuItem
+          key={i}
+          name={item.name}
+          price={item.price}
+          desc={item.desc}
+          badges={item.badges as Badge[] | undefined}
+        />
+      ))}
+    </MenuSection>
+  );
+}
+
+/* ─── Wine card component ─── */
+function WineCard({ wine }: { wine: Wine }) {
+  return (
+    <div className="wine-card">
+      <div className="flex justify-between items-start gap-4">
+        <div className="min-w-0">
+          <p className="font-serif font-semibold text-espresso-light text-sm leading-snug">
+            {wine.name}
+          </p>
+          <p className="font-serif text-xs text-espresso-light/50 mt-0.5">
+            {wine.region}
+          </p>
+        </div>
+        <div className="text-right whitespace-nowrap flex-shrink-0">
+          <span className="font-serif text-burgundy font-semibold text-sm">
+            ${wine.glassPrice}
+          </span>
+          <span className="font-serif text-espresso-light/40 text-xs"> glass</span>
+          {wine.bottlePrice && (
+            <>
+              <span className="text-espresso-light/20 mx-1">|</span>
+              <span className="font-serif text-burgundy/70 font-semibold text-sm">
+                ${wine.bottlePrice}
+              </span>
+              <span className="font-serif text-espresso-light/40 text-xs"> bottle</span>
+            </>
+          )}
+        </div>
+      </div>
+      <p className="font-serif text-xs text-espresso-light/55 mt-1 leading-relaxed italic">
+        {wine.desc}
+      </p>
+    </div>
+  );
+}
+
+/* ─── Tabbed Menu Section ─── */
+function MenuSectionTabs() {
+  const [activeTab, setActiveTab] = useState<MenuTab>("lunch");
+
+  const tabs: { key: MenuTab; label: string; sub: string }[] = [
+    { key: "lunch", label: "Lunch", sub: "11 AM – 4 PM" },
+    { key: "dinner", label: "Dinner", sub: "4 PM – Close" },
+    { key: "wine", label: "Wine List", sub: "By the Glass" },
+  ];
+
+  const lunchSections: MenuSectionData[] = [
+    snacksAndShares,
+    sandwiches,
+    lunchBistroPlates,
+    soupsAndSalads,
+  ];
+
+  const dinnerSections: MenuSectionData[] = [
+    snacksAndShares,
+    sandwiches,
+    dinnerBistroPlates,
+    dinnerEntrees,
+    soupsAndSalads,
+  ];
+
+  return (
+    <section id="menu" className="bg-parchment relative py-20 md:py-28 px-6 bg-cream overflow-hidden">
+      <div className="relative max-w-5xl mx-auto">
+        {/* Menu Header */}
+        <div className="text-center mb-10">
+          <ScrollReveal>
+            <p className="font-caveat text-gold text-3xl md:text-4xl mb-2">
+              Our Menu
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="ornament-divider max-w-xs mx-auto">
+              <span className="ornament">❧</span>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Tabs */}
+        <ScrollReveal delay={150}>
+          <div className="flex justify-center gap-8 mb-8">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`menu-tab text-center cursor-pointer bg-transparent border-0 ${
+                  activeTab === tab.key ? "menu-tab-active" : "text-espresso-light/50"
+                }`}
+              >
+                <span className="font-serif text-lg md:text-xl block">{tab.label}</span>
+                <span className="font-sans text-[10px] uppercase tracking-widest block mt-0.5 opacity-60">
+                  {tab.sub}
+                </span>
+              </button>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        {/* Dietary Legend (food menus only) */}
+        {activeTab !== "wine" && (
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-12 text-xs font-sans text-espresso-light/60">
+            <span className="flex items-center gap-1">
+              <span className="badge-v px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">V</span>
+              Vegetarian
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="badge-vg px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">VG</span>
+              Vegan
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="badge-gf px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">GF</span>
+              Gluten-Free
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="badge-df px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">DF</span>
+              Dairy-Free
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="badge-lc px-1.5 py-0.5 rounded-sm text-[10px] font-semibold uppercase">LC</span>
+              Low Carb
+            </span>
+          </div>
+        )}
+
+        {/* Menu Content */}
+        {activeTab === "lunch" && (
+          <>
+            <ScrollReveal>
+              <p className="text-center font-serif text-xs italic text-espresso-light/40 mb-10">
+                Lunch available until 4:00 PM
+              </p>
+            </ScrollReveal>
+            {lunchSections.map((section, i) => (
+              <ScrollReveal key={section.title} delay={i * 100}>
+                <DataMenuSection section={section} />
+              </ScrollReveal>
+            ))}
+          </>
+        )}
+
+        {activeTab === "dinner" && (
+          <>
+            {dinnerSections.map((section, i) => (
+              <ScrollReveal key={section.title} delay={i * 100}>
+                <DataMenuSection section={section} />
+              </ScrollReveal>
+            ))}
+          </>
+        )}
+
+        {activeTab === "wine" && (
+          <>
+            {/* White Wines */}
+            <ScrollReveal>
+              <div className="mb-14">
+                <h3 className="font-serif text-lg text-burgundy uppercase tracking-wider mb-2">
+                  White Wines
+                </h3>
+                <div className="ornament-divider mb-6">
+                  <span className="ornament">❧</span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
+                  {whiteWines.map((wine, i) => (
+                    <WineCard key={i} wine={wine} />
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Red Wines */}
+            <ScrollReveal delay={100}>
+              <div className="mb-14">
+                <h3 className="font-serif text-lg text-burgundy uppercase tracking-wider mb-2">
+                  Red Wines
+                </h3>
+                <div className="ornament-divider mb-6">
+                  <span className="ornament">❧</span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
+                  {redWines.map((wine, i) => (
+                    <WineCard key={i} wine={wine} />
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Port */}
+            <ScrollReveal delay={200}>
+              <div className="mb-14">
+                <h3 className="font-serif text-lg text-burgundy uppercase tracking-wider mb-2">
+                  Port
+                </h3>
+                <div className="ornament-divider mb-6">
+                  <span className="ornament">❧</span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
+                  {ports.map((p, i) => (
+                    <div key={i} className="wine-card">
+                      <div className="flex justify-between items-start gap-4">
+                        <p className="font-serif font-semibold text-espresso-light text-sm">
+                          {p.name}
+                        </p>
+                        <span className="font-serif text-burgundy font-semibold text-sm whitespace-nowrap">
+                          ${p.price} glass
+                        </span>
+                      </div>
+                      <p className="font-serif text-xs text-espresso-light/55 mt-1 italic">
+                        {p.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={300}>
+              <p className="text-center font-serif text-xs italic text-espresso-light/40">
+                Please drink responsibly
+              </p>
+            </ScrollReveal>
+          </>
+        )}
+
+        {/* Footer note */}
+        {activeTab !== "wine" && (
+          <ScrollReveal delay={200}>
+            <p className="text-center font-serif text-xs italic text-espresso-light/40 mt-12">
+              Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness. We are not a wheat-free facility.
+            </p>
+          </ScrollReveal>
+        )}
+      </div>
+    </section>
   );
 }
