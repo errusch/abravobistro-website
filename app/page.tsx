@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import ScrollReveal from "./components/ScrollReveal";
 import MobileNav from "./components/MobileNav";
 import OpenStatus from "./components/OpenStatus";
+import LogoLockup from "./components/LogoLockup";
 import { useScrollDirection } from "./hooks/useScrollDirection";
 
 type MenuTab = "lunch" | "dinner" | "wine";
@@ -174,14 +176,17 @@ export default function Home() {
     <main className="min-h-screen paper-texture">
       {/* Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm transition-all duration-300 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-gold/10 bg-cream/95 text-espresso-light shadow-sm backdrop-blur-sm transition-all duration-300 ease-out ${
           navHidden ? "-translate-y-full" : "translate-y-0"
-        } ${atTop ? "" : "shadow-sm"}`}
+        }`}
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="/" className="font-serif text-2xl text-burgundy tracking-wide">
-            á&apos;Bravo
-          </a>
+          <Link
+            href="/"
+            className="transition-opacity hover:opacity-90"
+          >
+            <LogoLockup variant="fresh" tone="light" compact />
+          </Link>
           <div className="hidden md:flex items-center gap-8">
             <a
               className="text-sm font-medium tracking-wide uppercase text-espresso-light hover:text-burgundy transition-colors"
@@ -208,71 +213,55 @@ export default function Home() {
               Reserve a Table
             </a>
           </div>
-          <MobileNav />
+          <MobileNav tone="light" />
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-44 md:pb-36 px-6 bg-cream overflow-hidden">
-        {/* Left sketch illustration */}
-        <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
+      {/* Hero Section — warm bistro atmosphere */}
+      <section className="hero-luxe relative min-h-[92vh] md:min-h-screen overflow-hidden bg-cream px-6 text-espresso-light">
+        <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/sketch-left.png"
+            src="/images/bg-bistro-interior.png"
             alt=""
-            width={400}
-            height={600}
-            className="sketch-illustration w-full h-auto"
+            className="hero-luxe-image h-full w-full object-cover"
           />
-        </div>
-        {/* Right sketch illustration */}
-        <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-72 xl:w-96 pointer-events-none">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/sketch-right.png"
-            alt=""
-            width={400}
-            height={600}
-            className="sketch-illustration w-full h-auto"
-          />
+          <div className="hero-luxe-veil" />
         </div>
 
-        <div className="relative max-w-3xl mx-auto text-center hero-animate">
-          <p className="font-caveat text-gold text-3xl md:text-4xl mb-3">
-            Established 1999
-          </p>
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-burgundy leading-tight mb-4">
-            á&apos;Bravo Bistro
-          </h1>
-          <p className="font-serif text-lg md:text-xl text-espresso-light/80 max-w-xl mx-auto leading-relaxed mb-8">
-            Timeless flavors. Warm hospitality. Unforgettable experiences.
-          </p>
-          {/* Gold ornamental divider */}
-          <div className="ornament-divider max-w-xs mx-auto mb-8">
-            <span className="ornament">❧</span>
+        <div className="relative z-20 mx-auto flex min-h-[92vh] w-full max-w-6xl flex-col justify-center pb-10 pt-24 md:min-h-screen md:pt-36">
+          <div className="hero-animate mx-auto max-w-4xl text-center">
+            <p className="font-caveat text-gold text-3xl md:text-4xl mb-3">
+              Established 1999
+            </p>
+            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-burgundy leading-tight mb-4">
+              á&apos;Bravo Bistro
+            </h1>
+            <p className="font-serif text-lg md:text-2xl text-espresso-light/80 max-w-2xl mx-auto leading-relaxed mb-8">
+              Sophisticated comfort food, candlelit cocktails, and a wine list built for lingering.
+            </p>
+            <div className="ornament-divider max-w-xs mx-auto mb-8">
+              <span className="ornament">❧</span>
+            </div>
+            <OpenStatus />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+              <a
+                className="inline-flex items-center justify-center bg-burgundy text-white px-8 py-4 rounded-md text-sm tracking-widest uppercase font-medium hover:opacity-90 transition-opacity"
+                href="#menu"
+              >
+                View Our Menu
+              </a>
+              <a
+                className="inline-flex items-center justify-center border border-burgundy text-burgundy px-8 py-4 rounded-md text-sm tracking-widest uppercase font-medium hover:bg-burgundy hover:text-white transition-colors"
+                href="tel:9204327286"
+              >
+                Call to Reserve
+              </a>
+            </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              className="inline-block bg-burgundy text-white px-8 py-4 rounded-md text-sm tracking-widest uppercase font-medium hover:opacity-90 transition-opacity"
-              href="#menu"
-            >
-              View Our Menu
-            </a>
-            <a
-              className="inline-block border border-burgundy text-burgundy px-8 py-4 rounded-md text-sm tracking-widest uppercase font-medium hover:bg-burgundy hover:text-white transition-colors"
-              href="tel:9204327286"
-            >
-              Call to Reserve
-            </a>
-          </div>
+
         </div>
       </section>
-
-      {/* Parallax Divider: Table Setting */}
-      <div
-        className="parallax-divider"
-        style={{ backgroundImage: "url('/images/bg-table-setting.png')" }}
-      />
 
       {/* About Section — with bistro interior background */}
       <section id="about" className="bg-bistro-interior py-20 md:py-28 px-6">

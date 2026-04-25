@@ -8,8 +8,9 @@ const navLinks = [
   { label: "Reservations", href: "#visit" },
 ];
 
-export default function MobileNav() {
+export default function MobileNav({ tone = "light" }: { tone?: "light" | "dark" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const buttonTone = tone === "dark" ? "text-cream" : "text-burgundy";
 
   // Close on resize to desktop
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function MobileNav() {
       {/* Hamburger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 text-burgundy"
+        className={`relative flex h-10 w-10 flex-col items-center justify-center gap-1.5 ${buttonTone}`}
         aria-label="Toggle menu"
         aria-expanded={isOpen}
       >

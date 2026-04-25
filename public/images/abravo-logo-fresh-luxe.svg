@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">�'Bravo fresh luxe logo</title>
+  <desc id="desc">A high-end bistro �'Bravo wordmark in cream and antique gold.</desc>
+  <rect width="760" height="300" fill="#2C1810"/>
+  <path d="M104 222h552" stroke="#C9A96E" stroke-width="1.2" opacity=".7"/>
+  <text x="380" y="148" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="114" font-weight="400" letter-spacing="-3"
+        fill="#F9F5EB">�&apos;Bravo</text>
+  <text x="380" y="196" text-anchor="middle"
+        font-family="Verdana, Arial, sans-serif"
+        font-size="18" font-weight="600" letter-spacing="11"
+        fill="#C9A96E">BISTRO � BELLEVUE, WI</text>
+  <circle cx="380" cy="222" r="4" fill="#C9A96E"/>
+</svg>

@@ -9,6 +9,7 @@
   }
   body {
     @apply bg-cream text-espresso-light antialiased;
+    overflow-x: hidden;
   }
 }
 
@@ -50,6 +51,108 @@
 .hero-animate > *:nth-child(3) { animation-delay: 0.4s; }
 .hero-animate > *:nth-child(4) { animation-delay: 0.55s; }
 .hero-animate > *:nth-child(5) { animation-delay: 0.7s; }
+
+/* ─── Logo refresh options ─── */
+.logo-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-lockup-word {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.95rem;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.logo-lockup-tag {
+  margin-top: 0.22rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.logo-lockup-classic .logo-lockup-word,
+.logo-lockup-classic .logo-lockup-tag {
+  color: #42c5cc;
+}
+
+.logo-lockup-fresh.logo-lockup-dark .logo-lockup-word {
+  color: theme("colors.cream");
+}
+
+.logo-lockup-fresh.logo-lockup-light .logo-lockup-word {
+  color: theme("colors.burgundy");
+}
+
+.logo-lockup-fresh .logo-lockup-tag {
+  color: theme("colors.gold");
+}
+
+.logo-lockup-compact .logo-lockup-word {
+  font-size: 1.9rem;
+}
+
+.logo-lockup-compact .logo-lockup-tag {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .logo-lockup-compact .logo-lockup-tag {
+    display: block;
+  }
+}
+
+/* ─── Warm bistro hero ─── */
+.hero-luxe {
+  isolation: isolate;
+}
+
+.hero-luxe-image {
+  filter: saturate(0.92) sepia(0.1) brightness(1.04) contrast(1.02);
+  transform: scale(1.04);
+}
+
+.hero-luxe-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 43%, rgba(249, 245, 235, 0.52) 0%, rgba(249, 245, 235, 0.42) 34%, rgba(249, 245, 235, 0.68) 72%, rgba(249, 245, 235, 0.94) 100%),
+    linear-gradient(90deg, rgba(249, 245, 235, 0.9), rgba(249, 245, 235, 0.36) 48%, rgba(249, 245, 235, 0.9)),
+    linear-gradient(180deg, rgba(249, 245, 235, 0.92) 0%, rgba(249, 245, 235, 0.28) 45%, rgba(249, 245, 235, 1) 100%);
+}
+
+.hero-luxe::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 12rem;
+  background: linear-gradient(to bottom, rgba(249, 245, 235, 0), theme("colors.cream"));
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .hero-animate > * {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  .hero-luxe-image {
+    object-position: 58% center;
+    transform: scale(1.08);
+  }
+
+  .hero-luxe-veil {
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(249, 245, 235, 0.44) 0%, rgba(249, 245, 235, 0.64) 62%, rgba(249, 245, 235, 0.94) 100%),
+      linear-gradient(180deg, rgba(249, 245, 235, 0.9) 0%, rgba(249, 245, 235, 0.28) 44%, rgba(249, 245, 235, 1) 100%);
+  }
+}
 
 /* ─── Menu item hover polish ─── */
 .menu-row {
@@ -222,28 +325,6 @@
 }
 .bg-wine-cta > * {
   position: relative;
-  z-index: 1;
-}
-
-/* Parallax divider strip */
-.parallax-divider {
-  position: relative;
-  height: 280px;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-}
-.parallax-divider::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    theme("colors.cream") 0%,
-    transparent 15%,
-    transparent 85%,
-    theme("colors.cream") 100%
-  );
   z-index: 1;
 }
 

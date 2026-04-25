@@ -43,9 +43,13 @@ export default function OpenStatus({
   const [open, setOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setOpen(isOpenNow());
-    const interval = setInterval(() => setOpen(isOpenNow()), 60000);
-    return () => clearInterval(interval);
+    const refresh = () => setOpen(isOpenNow());
+    const timeout = window.setTimeout(refresh, 0);
+    const interval = window.setInterval(refresh, 60000);
+    return () => {
+      window.clearTimeout(timeout);
+      window.clearInterval(interval);
+    };
   }, []);
 
   if (open === null) return null;
@@ -54,7 +58,7 @@ export default function OpenStatus({
     return (
       <span
         className={`inline-block w-2 h-2 rounded-full ${
-          open ? "bg-green-500 animate-pulse" : "bg-red-500"
+          open ? "bg-gold animate-pulse" : "bg-burgundy"
         }`}
         title={open ? "Open Now" : "Closed"}
       />
@@ -63,15 +67,15 @@ export default function OpenStatus({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full border ${
+      className={`inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase px-3 py-1 rounded-full border backdrop-blur-sm ${
         open
-          ? "bg-green-50 text-green-700 border-green-200"
-          : "bg-red-50 text-red-700 border-red-200"
+          ? "bg-cream/75 text-burgundy border-gold/60"
+          : "bg-cream/75 text-espresso-light border-burgundy/30"
       }`}
     >
       <span
         className={`w-1.5 h-1.5 rounded-full ${
-          open ? "bg-green-500 animate-pulse" : "bg-red-500"
+          open ? "bg-gold animate-pulse" : "bg-burgundy"
         }`}
       />
       {open ? "Open Now" : "Closed"}
